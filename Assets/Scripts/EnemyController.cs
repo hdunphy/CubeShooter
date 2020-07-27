@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     public float maxVisionDistance = 25f;
     public float shootAngle = 30f;
     public bool canMove = true;
+    public LayerMask playerMask;
 
     private GameObject player;
     private Rigidbody playerRB;
@@ -56,24 +57,19 @@ public class EnemyController : MonoBehaviour
         Transform currentTransform = gameObject.transform;
 
         Vector3 direction = playerTransform.position - currentTransform.position;
-        float timeBulletToPlayer = (direction).magnitude / Movement.bulletVelocity;
 
-        // Project future position
-        Vector3 futurePos = playerTransform.position;// + playerRB.velocity * timeBulletToPlayer;
-        Vector3 destination = futurePos - currentTransform.position;
-
-        bool canSeePlayer = Physics.Raycast(currentTransform.position, direction * maxVisionDistance, out RaycastHit objectHit)
+        bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, maxVisionDistance)
             && objectHit.collider.CompareTag("Player");
 
         if (canSeePlayer)
         {
-            Debug.DrawRay(currentTransform.position, destination * maxVisionDistance, Color.green);
-            Movement.RotateHead(futurePos);
+            Debug.DrawRay(currentTransform.position, direction * maxVisionDistance, Color.green);
+            Movement.RotateHead(playerTransform.position);
 
-            //bool canHitPlayer = Physics.Raycast(currentTransform.position, destination * maxVisionDistance, out RaycastHit objectHit1)
-            //    && objectHit1.collider.CompareTag("Player"); // && canHitPlayer
-            if (Movement.GetAngleDifference() <= shootAngle && Movement.GetAngleDifference() >= -shootAngle)
+            float angleDifference = Movement.GetAngleDifference();
+            if (angleDifference <= shootAngle && angleDifference >= -shootAngle)
             {
+                
                 Movement.SetIsShooting(true);
             }
             else

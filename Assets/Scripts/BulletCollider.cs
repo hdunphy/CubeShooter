@@ -30,11 +30,11 @@ public class BulletCollider : MonoBehaviour
                 break;
             case "Player":
             case "Tank":
+                Debug.Log("Hit a " + tag);
                 collision.collider.gameObject.GetComponent<Explosion>().Explode(gameObject);
                 Destroy(gameObject);
                 break;
             case "Bullet":
-            default:
                 Destroy(gameObject);
                 break;
         }
