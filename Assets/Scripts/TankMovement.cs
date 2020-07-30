@@ -39,7 +39,7 @@ public class TankMovement : MonoBehaviour
     {
         List<int> indecies = new List<int>();
         for (int i = 0; i < Bullets.Count() - 1; i++)
-            if (Bullets[i] == null)
+            if (!Bullets[i].activeInHierarchy)
                 indecies.Add(i);
 
         foreach (int j in indecies)
@@ -63,9 +63,8 @@ public class TankMovement : MonoBehaviour
         Vector3 velocity = (headPosition * Vector3.forward) * bulletVelocity;
         Vector3 position = transform.position + bulletDistanceOffset * (headPosition * Vector3.forward).normalized;
 
-        GameObject b = Instantiate(bullet, position, headPosition);
-        b.GetComponent<Rigidbody>().velocity = velocity;
-        b.GetComponent<BulletCollider>().bulletVelocity = bulletVelocity;
+        //GameObject b = Instantiate(bullet, position, headPosition);
+        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, bulletVelocity);
         Bullets.Add(b);
         if (debug)
             Debug.Log(Bullets.Count());

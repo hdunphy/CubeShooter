@@ -22,15 +22,6 @@ public class Explosion : MonoBehaviour
         cubesPivotDistance = cubeSize * cubesInRow / 2;
         cubesPivot = new Vector3(cubesPivotDistance, cubesPivotDistance, cubesPivotDistance);
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    Collider other = collision.collider;
-    //    if (other.CompareTag("Bullet"))
-    //    {
-    //        Explode(other);
-    //        Destroy(other.gameObject);
-    //    }
-    //}
 
     public void Explode(GameObject other)
     {

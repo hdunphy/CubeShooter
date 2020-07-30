@@ -10,10 +10,12 @@ public class BulletCollider : MonoBehaviour
 
     public Rigidbody rb;
 
+    private BulletObejctPool bulletObejctPool;
     private int currentBounces = 0;
 
     private void Start()
     {
+        bulletObejctPool = BulletObejctPool.Instance;
         rb.freezeRotation = true;
     }
 
@@ -26,16 +28,15 @@ public class BulletCollider : MonoBehaviour
                 if (currentBounces++ < numberOfBounces)
                     ChangeVelocity(collision);
                 else
-                    Destroy(gameObject);
+                    bulletObejctPool.DestroyToPool(gameObject);
                 break;
             case "Player":
             case "Tank":
-                Debug.Log("Hit a " + tag);
                 collision.collider.gameObject.GetComponent<Explosion>().Explode(gameObject);
-                Destroy(gameObject);
+                bulletObejctPool.DestroyToPool(gameObject);
                 break;
             case "Bullet":
-                Destroy(gameObject);
+                bulletObejctPool.DestroyToPool(gameObject);
                 break;
         }
     }
@@ -49,5 +50,18 @@ public class BulletCollider : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.velocity = newDir.normalized * bulletVelocity;
         //Debug.Log("change velocity: " + rb.velocity.magnitude);
+    }
+
+    internal void OnBulletDespawn()
+    {
+        rb.velocity = Vector3.zero;
+        bulletVelocity = 0f;
+        currentBounces = 0;
+    }
+
+    public void OnBulletSpawn(Vector3 velcoity, float maxVelocity)
+    {
+        rb.velocity = velcoity;
+        bulletVelocity = maxVelocity;
     }
 }
