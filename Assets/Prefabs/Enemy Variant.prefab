@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1905525415}
   - component: {fileID: 1905525417}
   - component: {fileID: 1905525416}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BulletDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,31 @@ PrefabInstance:
         type: 3}
       propertyPath: turnSmoothTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}

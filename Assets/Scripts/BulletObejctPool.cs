@@ -19,7 +19,7 @@ public class BulletObejctPool : MonoBehaviour
 
     public void CreateInstances(int instances)
     {
-        for(int i = 0; i < instances; i++)
+        for (int i = 0; i < instances; i++)
         {
             var obj = Instantiate(prefab);
             obj.SetActive(false);
@@ -27,13 +27,13 @@ public class BulletObejctPool : MonoBehaviour
         }
     }
 
-    public GameObject SpawnFromPool(Vector3 position, Quaternion rotation, Vector3 velocity, float maxVelocity)
+    public GameObject SpawnFromPool(Vector3 position, Quaternion rotation, Vector3 velocity, float maxVelocity, TankMovement tankMovement)
     {
         GameObject bullet = bulletQueue.Dequeue();
         bullet.SetActive(true);
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-        bullet.GetComponent<BulletCollider>().OnBulletSpawn(velocity, maxVelocity);
+        bullet.GetComponent<BulletCollider>().OnBulletSpawn(velocity, maxVelocity, tankMovement);
         return bullet;
     }
 

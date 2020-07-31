@@ -10,6 +10,7 @@ public class BulletCollider : MonoBehaviour
 
     public Rigidbody rb;
 
+    private TankMovement owner;
     private BulletObejctPool bulletObejctPool;
     private int currentBounces = 0;
 
@@ -54,13 +55,20 @@ public class BulletCollider : MonoBehaviour
 
     internal void OnBulletDespawn()
     {
+        if (owner != null)
+        {
+            owner.RemoveBullet();
+            owner = null;
+        }
         rb.velocity = Vector3.zero;
         bulletVelocity = 0f;
         currentBounces = 0;
     }
 
-    public void OnBulletSpawn(Vector3 velcoity, float maxVelocity)
+    internal void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement)
     {
+        owner = tankMovement;
+        owner.AddBullet();
         rb.velocity = velcoity;
         bulletVelocity = maxVelocity;
     }

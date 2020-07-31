@@ -92,9 +92,13 @@ public class EnemyController : BaseController
 
         bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, MaxVisionDistance)
             && objectHit.collider.CompareTag("Player");
+        if(Movement.debug)
+            Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
 
         if (canSeePlayer)
         {
+            if (Movement.debug)
+                Debug.Log("can see player");
             Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
             Movement.RotateHead(playerTransform.position);
 

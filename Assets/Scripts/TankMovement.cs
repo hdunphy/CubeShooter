@@ -20,7 +20,7 @@ public class TankMovement : MonoBehaviour
     private float FireRate => TankData.fireRate;
     private float TurnSmoothTime => TankData.turnSmoothTime;
 
-    private List<GameObject> Bullets;
+    private int BulletCount = 0;
     private bool isShooting = false;
     private float nextFire = 0f;
     private float angleDifference = 99999f;
@@ -30,24 +30,23 @@ public class TankMovement : MonoBehaviour
     void Start()
     {
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        Bullets = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<int> indecies = new List<int>();
-        for (int i = 0; i < Bullets.Count() - 1; i++)
-            if (!Bullets[i].activeInHierarchy)
-                indecies.Add(i);
+        //List<int> indecies = new List<int>();
+        //for (int i = 0; i < Bullets.Count(); i++)
+        //    if (!Bullets[i].activeInHierarchy)
+        //        indecies.Add(i);
 
-        foreach (int j in indecies)
-            Bullets.RemoveAt(j);
+        //foreach (int j in indecies)
+        //    Bullets.RemoveAt(j);
     }
 
     void FixedUpdate()
     {
-        if (isShooting && Bullets.Count() < NumberOfBullets && Time.time > nextFire)
+        if (isShooting && BulletCount < NumberOfBullets && Time.time > nextFire)
         {
             Fire();
             nextFire = Time.time + FireRate;
@@ -61,16 +60,11 @@ public class TankMovement : MonoBehaviour
 
     void Fire()
     {
-        if (debug)
-            Debug.Log("Shoot");
         Quaternion headPosition = headTransform.rotation;
         Vector3 velocity = (headPosition * Vector3.forward) * BulletVelocity;
         Vector3 position = transform.position + BulletDistanceOffset * (headPosition * Vector3.forward).normalized;
 
-        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity);
-        Bullets.Add(b);
-        if (debug)
-            Debug.Log(Bullets.Count());
+        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity, this);
     }
 
     public void RotateHead(Vector3 hitPoint)
@@ -87,6 +81,20 @@ public class TankMovement : MonoBehaviour
             
             angleDifference = Vector3.Angle(direction, headTransform.forward);
         }
+    }
+
+    public void RemoveBullet()
+    {
+        BulletCount--;
+        if (BulletCount < 0)
+            Debug.LogWarning("Removed too many bullets");
+    }
+
+    public void AddBullet()
+    {
+        BulletCount++;
+        if(BulletCount > NumberOfBullets)
+            Debug.LogWarning("Added too many bullets");
     }
 
     public void SetMovement(Vector3 force)
