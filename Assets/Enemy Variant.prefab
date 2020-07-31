@@ -71,10 +71,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c9824668b25d246987ece53fe6ebd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TankData: {fileID: 11400000, guid: cc5fd0f91b7971748a5e7c91fc3f98d5, type: 2}
   Movement: {fileID: 4812066001906306230}
-  maxVisionDistance: 50
-  shootAngle: 30
-  canMove: 1
+  NavMeshAgent: {fileID: 395587717}
+  NearestBulletCollider: {fileID: 1905525416}
 --- !u!195 &395587717
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 9102785149521203021, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Enemy Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cce7c8309b23f9f47a4a64bb0ffb545c, type: 3}

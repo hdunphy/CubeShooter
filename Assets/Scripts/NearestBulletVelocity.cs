@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NearestBulletVelocity : MonoBehaviour
 {
-    public Transform Bullet;
+    public Transform Bullet { get; private set; }
 
     private void OnTriggerEnter(Collider other)
     {

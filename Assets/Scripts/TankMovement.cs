@@ -6,20 +6,20 @@ using UnityEngine;
 
 public class TankMovement : MonoBehaviour
 {
-    public float movementForce = 500f;
-    public float maximumVelcoity = 5.5f;
-    public float bulletHeight = 1.5f;
-    public float bulletDistanceOffset = 2.5f;
-    public float bulletVelocity = 7f;
-    public float fireRate = 1f;
-    public float turnSmoothTime = 0.3f;
-    public int numberOfBullets = 5;
+    [SerializeField] private GameObject bullet;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform headTransform;
+    private BaseTankData TankData;
+
     public bool debug = false;
+    public float MovementForce => TankData.movementForce;
+    public int NumberOfBullets => TankData.numberOfBullets;
+    private float MaximumVelcoity => TankData.maximumVelcoity;
+    private float BulletDistanceOffset => TankData.bulletDistanceOffset;
+    private float BulletVelocity => TankData.bulletVelocity;
+    private float FireRate => TankData.fireRate;
+    private float TurnSmoothTime => TankData.turnSmoothTime;
 
-    public GameObject bullet;
-    public Rigidbody rb;
-
-    private Transform headTransform;
     private List<GameObject> Bullets;
     private bool isShooting = false;
     private float nextFire = 0f;
@@ -48,11 +48,16 @@ public class TankMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isShooting && Bullets.Count() < numberOfBullets && Time.time > nextFire)
+        if (isShooting && Bullets.Count() < NumberOfBullets && Time.time > nextFire)
         {
             Fire();
-            nextFire = Time.time + fireRate;
+            nextFire = Time.time + FireRate;
         }
+    }
+
+    public void SetTankData(BaseTankData tankData)
+    {
+        TankData = tankData;
     }
 
     void Fire()
@@ -60,11 +65,11 @@ public class TankMovement : MonoBehaviour
         if (debug)
             Debug.Log("Shoot");
         Quaternion headPosition = headTransform.rotation;
-        Vector3 velocity = (headPosition * Vector3.forward) * bulletVelocity;
-        Vector3 position = transform.position + bulletDistanceOffset * (headPosition * Vector3.forward).normalized;
+        Vector3 velocity = (headPosition * Vector3.forward) * BulletVelocity;
+        Vector3 position = transform.position + BulletDistanceOffset * (headPosition * Vector3.forward).normalized;
 
         //GameObject b = Instantiate(bullet, position, headPosition);
-        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, bulletVelocity);
+        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity);
         Bullets.Add(b);
         if (debug)
             Debug.Log(Bullets.Count());
@@ -79,9 +84,8 @@ public class TankMovement : MonoBehaviour
         {
             direction.Normalize();
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(headTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            float angle = Mathf.SmoothDampAngle(headTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TurnSmoothTime);
             headTransform.rotation = Quaternion.Euler(0f, angle, 0f);
-            //angleDifference = Mathf.Abs(headTransform.rotation.eulerAngles.y - angle);
             
             angleDifference = Vector3.Angle(direction, headTransform.forward);
         }
@@ -90,10 +94,9 @@ public class TankMovement : MonoBehaviour
     public void SetMovement(Vector3 force)
     {
         rb.AddForce(force);
-        if (rb.velocity.magnitude > maximumVelcoity)
+        if (rb.velocity.magnitude > MaximumVelcoity)
         {
-            //Debug.Log("Capped Velocity");
-            rb.velocity = rb.velocity.normalized * maximumVelcoity;
+            rb.velocity = rb.velocity.normalized * MaximumVelcoity;
         }
     }
 

@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseController
 {
-    public TankMovement Movement;
 
     float verticleMovement, horizontalMovement;
 
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float speedModifier = Movement.movementForce * Time.fixedDeltaTime;
+        float speedModifier = Movement.MovementForce * Time.fixedDeltaTime;
         Vector3 force = new Vector3(Math.Sign(horizontalMovement) * speedModifier, 0, Math.Sign(verticleMovement) * speedModifier);
         Movement.SetMovement(force);
     }

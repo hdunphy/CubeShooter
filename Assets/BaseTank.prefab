@@ -334,13 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54bb3074144dba84cabaeb34444f6339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementForce: 500
-  maximumVelcoity: 5.5
-  bulletHeight: 1.5
-  bulletDistanceOffset: 2.5
-  bulletVelocity: 7
-  fireRate: 1
-  turnSmoothTime: 0.3
-  numberOfBullets: 5
   bullet: {fileID: 5622300780679845621, guid: 2148825a3d7225348b4d202d9e8c1242, type: 3}
   rb: {fileID: 9102785149521203019}
+  TankData: {fileID: 11400000, guid: 1b551c1d5274fe14da39cbf1e39a474a, type: 2}
+  headTransform: {fileID: 9102785147804248433}
+  debug: 0

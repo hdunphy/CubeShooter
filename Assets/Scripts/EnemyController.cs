@@ -4,39 +4,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : BaseController
 {
 
-    public TankMovement Movement;
-    public float maxVisionDistance = 25f;
-    public float shootAngle = 30f;
-    public bool canMove = true;
-    public LayerMask playerMask;
 
-    private GameObject player;
-    private Rigidbody playerRB;
-    private NavMeshAgent NavMeshAgent;
+    [SerializeField] private NavMeshAgent NavMeshAgent;
+    [SerializeField] private NearestBulletVelocity NearestBulletCollider;
+    private EnemyTankData EnemyTankData => (EnemyTankData)TankData;
+
+    public float MaxVisionDistance => EnemyTankData.maxVisionDistance;
+    public float ShootAngle => EnemyTankData.shootAngle;
+    public bool CanMove => EnemyTankData.canMove;
+    private float ClosestPlayerOffset => EnemyTankData.closestPlayerOffset;
+    
+    private PlayerController player;
     private Transform NearestBullet;
     private AIMode currentMode = AIMode.Search;
 
     enum AIMode { Search, Avoid };
 
-    void Awake()
+    private void Start()
     {
-        player = GameObject.Find("Player"); //For multiplayer will have to check for closets player
-        playerRB = player.GetComponent<Rigidbody>();
-        NavMeshAgent = GetComponent<NavMeshAgent>();
         NavMeshAgent.updateRotation = false;
+        NavMeshAgent.acceleration = EnemyTankData.navMeshAcceleration;
+        NavMeshAgent.angularSpeed = EnemyTankData.navMeshAngularSpeed;
+        NavMeshAgent.speed = EnemyTankData.maximumVelcoity;
     }
 
     // Update is called once per frame
     void Update()
     {
-        NearestBullet = transform.Find("Base").Find("BulletDetector").GetComponent<NearestBulletVelocity>().Bullet;
+        FindClosestPlayer(); //For multiplayer will have to check for closets player
+        NearestBullet = NearestBulletCollider.Bullet; //TODO Refactor
         currentMode = NearestBullet == null ? AIMode.Search : AIMode.Avoid;
 
+        //TODO fix this
         Transform playerTransform = player.transform;
-        if (canMove)
+        if (CanMove)
             Move(playerTransform);
         FindPlayer(playerTransform);
     }
@@ -52,22 +56,38 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void FindClosestPlayer()
+    {
+        foreach (PlayerController pc in FindObjectsOfType<PlayerController>())
+        {
+            if (player == null)
+                player = pc;
+            else
+            {
+                float nextPlayerDistance = Mathf.Abs(Vector3.Distance(transform.position, pc.transform.position));
+                float currentPlayerDistance = Mathf.Abs(Vector3.Distance(transform.position, player.transform.position));
+                if (nextPlayerDistance + ClosestPlayerOffset < currentPlayerDistance)
+                    player = pc;
+            }
+        }
+    }
+
     void FindPlayer(Transform playerTransform)
     {
         Transform currentTransform = gameObject.transform;
 
         Vector3 direction = playerTransform.position - currentTransform.position;
 
-        bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, maxVisionDistance)
+        bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, MaxVisionDistance)
             && objectHit.collider.CompareTag("Player");
 
         if (canSeePlayer)
         {
-            Debug.DrawRay(currentTransform.position, direction * maxVisionDistance, Color.green);
+            Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
             Movement.RotateHead(playerTransform.position);
 
             float angleDifference = Movement.GetAngleDifference();
-            if (angleDifference <= shootAngle && angleDifference >= -shootAngle)
+            if (angleDifference <= ShootAngle && angleDifference >= -ShootAngle)
             {
                 
                 Movement.SetIsShooting(true);

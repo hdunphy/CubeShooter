@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
         int bullets = 0;
         foreach(TankMovement tank in FindObjectsOfType<TankMovement>())
         {
-            bullets += tank.numberOfBullets;
+            bullets += tank.NumberOfBullets;
         }
         bulletObejctPool.CreateInstances(bullets);
     }
