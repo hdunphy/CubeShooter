@@ -29,7 +29,6 @@ public class TankMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        headTransform = transform.Find("Head");
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         Bullets = new List<GameObject>();
     }
@@ -68,7 +67,6 @@ public class TankMovement : MonoBehaviour
         Vector3 velocity = (headPosition * Vector3.forward) * BulletVelocity;
         Vector3 position = transform.position + BulletDistanceOffset * (headPosition * Vector3.forward).normalized;
 
-        //GameObject b = Instantiate(bullet, position, headPosition);
         GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity);
         Bullets.Add(b);
         if (debug)

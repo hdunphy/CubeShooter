@@ -16,7 +16,7 @@ public class EnemyController : BaseController
     public float ShootAngle => EnemyTankData.shootAngle;
     public bool CanMove => EnemyTankData.canMove;
     private float ClosestPlayerOffset => EnemyTankData.closestPlayerOffset;
-    
+
     private PlayerController player;
     private Transform NearestBullet;
     private AIMode currentMode = AIMode.Search;
@@ -48,11 +48,23 @@ public class EnemyController : BaseController
     private void Move(Transform playerTransform)
     {
         if (currentMode == AIMode.Search)
+        {
             NavMeshAgent.SetDestination(playerTransform.position);
+        }
         else if (currentMode == AIMode.Avoid)
         {
-            Vector2 direction = Vector2.Perpendicular(new Vector2(NearestBullet.position.x, NearestBullet.position.z));
-            Movement.SetMovement(new Vector3(direction.x, 0f, direction.y));
+            Vector3 nearestBulletVelocity = NearestBullet.GetComponent<Rigidbody>().velocity;
+            Vector2 direction = Vector2.Perpendicular(new Vector2(nearestBulletVelocity.x, nearestBulletVelocity.y));
+
+            Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
+            if (Vector3.Distance(moveDirection + transform.position, NearestBullet.position) <
+                Vector3.Distance(transform.position - moveDirection, NearestBullet.position))
+                moveDirection *= -1;
+            //Vector2 direction = Vector2.Perpendicular(new Vector2(NearestBullet.position.x, NearestBullet.position.z));
+            Debug.DrawRay(transform.position, moveDirection, Color.blue);
+            Debug.DrawRay(NearestBullet.position, moveDirection, Color.blue);
+            //Movement.SetMovement(moveDirection);
+            NavMeshAgent.SetDestination(transform.position + moveDirection);
         }
     }
 
@@ -89,7 +101,7 @@ public class EnemyController : BaseController
             float angleDifference = Movement.GetAngleDifference();
             if (angleDifference <= ShootAngle && angleDifference >= -ShootAngle)
             {
-                
+
                 Movement.SetIsShooting(true);
             }
             else
