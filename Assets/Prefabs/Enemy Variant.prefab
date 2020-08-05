@@ -74,6 +74,7 @@ MonoBehaviour:
   Movement: {fileID: 4812066001906306230}
   NavMeshAgent: {fileID: 395587717}
   NearestBulletCollider: {fileID: 1905525416}
+  StateTypes: 0000000001000000
 --- !u!195 &395587717
 NavMeshAgent:
   m_ObjectHideFlags: 0
