@@ -25,3 +25,5 @@ MonoBehaviour:
   shootAngle: 30
   canMove: 1
   closestPlayerOffset: 10
+  strafeDistance: 12
+  chaseDistance: 15

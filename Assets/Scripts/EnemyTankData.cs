@@ -11,4 +11,6 @@ public class EnemyTankData : BaseTankData
     public float shootAngle;// 30f;
     public bool canMove;// true;
     public float closestPlayerOffset;
+    public float strafeDistance;
+    public float chaseDistance;
 }

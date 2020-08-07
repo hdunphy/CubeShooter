@@ -780,7 +780,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 395587711, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}
       propertyPath: StateTypes.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 395587711, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}
       propertyPath: StateTypes.Array.data[0]
@@ -794,6 +794,10 @@ PrefabInstance:
     - target: {fileID: 395587711, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}
       propertyPath: StateTypes.Array.data[1]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 395587711, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}
+      propertyPath: StateTypes.Array.data[2]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3238189945312512745, guid: 066f935f8e60f774fba50f7fb69e3324,
         type: 3}
@@ -854,6 +858,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Variant (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812066001906306230, guid: 066f935f8e60f774fba50f7fb69e3324,
+        type: 3}
+      propertyPath: debug
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}

@@ -10,7 +10,10 @@ public class EnemyController : BaseController
     private EnemyTankData EnemyTankData => (EnemyTankData)TankData;
     public float MaxVisionDistance => EnemyTankData.maxVisionDistance;
     public float ShootAngle => EnemyTankData.shootAngle;
-    public bool CanMove => EnemyTankData.canMove;
+    public float StrafeDistance => EnemyTankData.strafeDistance;
+    public float ChaseDistance => EnemyTankData.chaseDistance;
+    public bool _debug => Movement.debug;
+    private bool CanMove => EnemyTankData.canMove;
     private float ClosestPlayerOffset => EnemyTankData.closestPlayerOffset;
     public PlayerController TargetedPlayer { get; private set; }
     public BulletCollider NearestBullet { get; private set; }
