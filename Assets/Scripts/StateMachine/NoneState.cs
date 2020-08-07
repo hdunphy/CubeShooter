@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoneState : MonoBehaviour
+public class NoneState : BaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public NoneState(EnemyController controller) : base(controller)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override StateType GetStateType() => StateType.None;
+
+    public override StateType Tick()
     {
-        
+        return StateType.None;
     }
 }

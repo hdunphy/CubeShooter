@@ -18,6 +18,9 @@ public class StateFactory
             case StateType.Strafe:
                 returnState = new StrafeState(controller);
                 break;
+            case StateType.None:
+                returnState = new NoneState(controller);
+                break;
         }
         return returnState;
     }
