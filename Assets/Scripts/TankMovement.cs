@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class TankMovement : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform headTransform;
+    private Rigidbody rb;
     private BaseTankData TankData;
 
     public bool debug = false;
@@ -29,6 +30,7 @@ public class TankMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 

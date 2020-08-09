@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : BaseController
 {
-
     private EnemyTankData EnemyTankData => (EnemyTankData)TankData;
     public float MaxVisionDistance => EnemyTankData.maxVisionDistance;
     public float ShootAngle => EnemyTankData.shootAngle;
@@ -20,14 +20,15 @@ public class EnemyController : BaseController
     public Vector3 TargetDestination { get; set; }
 
 
-    [SerializeField] private NavMeshAgent NavMeshAgent;
     [SerializeField] private NearestBulletVelocity NearestBulletCollider;
     [SerializeField] private List<StateType> StateTypes;
 
+    private NavMeshAgent NavMeshAgent;
     private StateMachine stateMachine;
 
     private void Start()
     {
+        NavMeshAgent = GetComponent<NavMeshAgent>();
         Dictionary<StateType, BaseState> stateMachineDictionary = new Dictionary<StateType, BaseState>();
         foreach (StateType state in StateTypes)
         {

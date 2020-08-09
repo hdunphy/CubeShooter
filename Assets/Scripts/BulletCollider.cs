@@ -53,7 +53,7 @@ public class BulletCollider : MonoBehaviour
         //Debug.Log("change velocity: " + rb.velocity.magnitude);
     }
 
-    internal void OnBulletDespawn()
+    public void OnBulletDespawn()
     {
         if (owner != null)
         {
