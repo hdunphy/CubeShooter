@@ -35,9 +35,13 @@ public class NearestBulletVelocity : MonoBehaviour
             && objectHitLeft.transform.position == transform.position;
         bool hitMeRight = Physics.Raycast(otherTransform.position - perpendicular, otherTransform.forward, out RaycastHit objectHitRight, 100f) 
             && objectHitRight.transform.position == transform.position;
+
+        //Debug
         Debug.DrawRay(otherTransform.position, otherTransform.forward, Color.red);
         Debug.DrawRay(otherTransform.position + perpendicular, otherTransform.forward, Color.red);
         Debug.DrawRay(otherTransform.position - perpendicular, otherTransform.forward, Color.red);
+        
+        
         if (hitMe || hitMeLeft || hitMeRight)
         {
             //Debug.Log("Incoming bullet");

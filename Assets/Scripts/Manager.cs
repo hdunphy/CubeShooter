@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(BulletObejctPool))]
 public class Manager : MonoBehaviour
 {
     [SerializeField] private BulletObejctPool bulletObejctPool;
