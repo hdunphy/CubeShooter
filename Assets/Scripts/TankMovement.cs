@@ -20,6 +20,7 @@ public class TankMovement : MonoBehaviour
     private float BulletVelocity => TankData.bulletVelocity;
     private float FireRate => TankData.fireRate;
     private float TurnSmoothTime => TankData.turnSmoothTime;
+    private int NumberOfBulletBounces => TankData.numberOfBulletBounces;
 
     private int BulletCount = 0;
     private bool isShooting = false;
@@ -66,7 +67,7 @@ public class TankMovement : MonoBehaviour
         Vector3 velocity = (headPosition * Vector3.forward) * BulletVelocity;
         Vector3 position = transform.position + BulletDistanceOffset * (headPosition * Vector3.forward).normalized;
 
-        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity, this);
+        GameObject b = BulletObejctPool.Instance.SpawnFromPool(position, headPosition, velocity, BulletVelocity, this, NumberOfBulletBounces);
     }
 
     public void RotateHead(Vector3 hitPoint)
@@ -78,11 +79,21 @@ public class TankMovement : MonoBehaviour
         {
             direction.Normalize();
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(headTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TurnSmoothTime);
-            headTransform.rotation = Quaternion.Euler(0f, angle, 0f);
+            RotateHead(targetAngle);
+
+            //angleDifference = Vector3.Angle(direction, headTransform.forward);
             
-            angleDifference = Vector3.Angle(direction, headTransform.forward);
         }
+    }
+
+    public void RotateHead(float targetAngle)
+    {
+        float angle = Mathf.SmoothDampAngle(headTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TurnSmoothTime);
+        headTransform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+        angleDifference = Mathf.Abs(targetAngle) - Mathf.Abs(angle);
+        //angleDifference = Mathf.Abs(targetAngle - angle);
+        //angleDifference = Vector3.Angle(direction, headTransform.forward);
     }
 
     public void RemoveBullet()

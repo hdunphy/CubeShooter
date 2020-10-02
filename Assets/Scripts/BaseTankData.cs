@@ -13,4 +13,5 @@ public class BaseTankData : ScriptableObject
     public float fireRate;// 1f;
     public float turnSmoothTime;// 0.3f;
     public int numberOfBullets;// 5;
+    public int numberOfBulletBounces;
 }

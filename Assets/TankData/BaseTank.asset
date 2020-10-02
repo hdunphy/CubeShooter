@@ -19,3 +19,4 @@ MonoBehaviour:
   fireRate: 1
   turnSmoothTime: 0.3
   numberOfBullets: 5
+  numberOfBulletBounces: 1

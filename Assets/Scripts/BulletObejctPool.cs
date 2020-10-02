@@ -27,13 +27,13 @@ public class BulletObejctPool : MonoBehaviour
         }
     }
 
-    public GameObject SpawnFromPool(Vector3 position, Quaternion rotation, Vector3 velocity, float maxVelocity, TankMovement tankMovement)
+    public GameObject SpawnFromPool(Vector3 position, Quaternion rotation, Vector3 velocity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
     {
         GameObject bullet = bulletQueue.Dequeue();
         bullet.SetActive(true);
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-        bullet.GetComponent<BulletCollider>().OnBulletSpawn(velocity, maxVelocity, tankMovement);
+        bullet.GetComponent<BulletCollider>().OnBulletSpawn(velocity, maxVelocity, tankMovement, numberOfBounces);
         return bullet;
     }
 

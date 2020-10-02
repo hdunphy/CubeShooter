@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletCollider : MonoBehaviour
 {
     public float bulletVelocity;
-    public int numberOfBounces = 1;
+    private int NumberOfBounces { get; set; }
 
     public Rigidbody rb;
 
@@ -26,7 +26,7 @@ public class BulletCollider : MonoBehaviour
         switch (tag)
         {
             case "Wall":
-                if (currentBounces++ < numberOfBounces)
+                if (currentBounces++ < NumberOfBounces)
                     ChangeVelocity(collision);
                 else
                     bulletObejctPool.DestroyToPool(gameObject);
@@ -65,8 +65,9 @@ public class BulletCollider : MonoBehaviour
         currentBounces = 0;
     }
 
-    internal void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement)
+    internal void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
     {
+        NumberOfBounces = numberOfBounces;
         owner = tankMovement;
         owner.AddBullet();
         rb.velocity = velcoity;

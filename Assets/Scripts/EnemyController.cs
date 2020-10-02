@@ -54,6 +54,39 @@ public class EnemyController : BaseController
         TargetPlayer(TargetedPlayer.transform);
     }
 
+    /*
+    void Update()
+    {
+        //New Update pattern:
+        //Nearest Bullet is updated from Event
+
+        stateMachine.Update();
+
+        if (CanMove) Move();
+
+        if(CheckCurrentShot(currentFacing))
+            SetShooting(true)
+        else
+            RotateHead();
+    }
+    */
+
+    private void CheckCurrentShot(Vector3 direction)
+    {
+        //Follow Raycast in direction and calculate reflection angles of bullet
+        //If player is hit by raycast
+            //shoot and return true
+        //else
+            //return false
+    }
+    private void RotateHead()
+    {
+        //for every y degrees current angle -x degrees to current angle plus x degrees
+        //ie (for every 5 degrees from curr_angle - 45 to curr_angle + 45)
+            //Follow Raycast direction check if player is hit (CheckCUrrentShot(direction))
+            //if true set that as head movement destination
+    }
+
     private void Move()
     {
         NavMeshAgent.SetDestination(TargetDestination);
@@ -65,7 +98,7 @@ public class EnemyController : BaseController
         {
             if (TargetedPlayer == null)
                 TargetedPlayer = pc;
-            else if(TargetedPlayer != pc)
+            else if (TargetedPlayer != pc)
             {
                 float nextPlayerDistance = Mathf.Abs(Vector3.Distance(transform.position, pc.transform.position));
                 float currentPlayerDistance = Mathf.Abs(Vector3.Distance(transform.position, TargetedPlayer.transform.position));
@@ -83,18 +116,20 @@ public class EnemyController : BaseController
 
         bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, MaxVisionDistance)
             && objectHit.collider.CompareTag("Player");
-        if(Movement.debug)
+        if (Movement.debug)
             Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
 
         bool setIsShooting = false;
         if (canSeePlayer)
         {
-            if (Movement.debug)
-                Debug.Log("can see player");
+            //if (Movement.debug)
+            //    Debug.Log("can see player");
             Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
             Movement.RotateHead(playerTransform.position);
 
             float angleDifference = Movement.GetAngleDifference();
+            if (Movement.debug)
+                Debug.Log("angle: " + angleDifference);
             if (angleDifference <= ShootAngle && angleDifference >= -ShootAngle)
             {
                 setIsShooting = true;
