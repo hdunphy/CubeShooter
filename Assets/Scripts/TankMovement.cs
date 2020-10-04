@@ -32,19 +32,8 @@ public class TankMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //List<int> indecies = new List<int>();
-        //for (int i = 0; i < Bullets.Count(); i++)
-        //    if (!Bullets[i].activeInHierarchy)
-        //        indecies.Add(i);
-
-        //foreach (int j in indecies)
-        //    Bullets.RemoveAt(j);
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+        //rb.inertiaTensor += new Vector3(0, rb.inertiaTensor.y * 100, 0);
     }
 
     void FixedUpdate()
@@ -91,7 +80,9 @@ public class TankMovement : MonoBehaviour
         float angle = Mathf.SmoothDampAngle(headTransform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TurnSmoothTime);
         headTransform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-        angleDifference = Mathf.Abs(targetAngle) - Mathf.Abs(angle);
+        float theta = Math.Abs(targetAngle - angle) % 360;
+        angleDifference = theta > 180 ? 360 - theta : theta;
+        //angleDifference = Mathf.Abs(targetAngle) - Mathf.Abs(angle);
         //angleDifference = Mathf.Abs(targetAngle - angle);
         //angleDifference = Vector3.Angle(direction, headTransform.forward);
     }
@@ -125,4 +116,11 @@ public class TankMovement : MonoBehaviour
     }
 
     public float GetAngleDifference() { return angleDifference; }
+
+    public int GetNumberOfBulletBounces() { return NumberOfBulletBounces; }
+
+    public Vector3 GetHeadDirection()
+    {
+        return headTransform.forward;
+    }
 }

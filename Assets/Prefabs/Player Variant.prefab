@@ -111,11 +111,6 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9102785149521203020, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203021, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_Name

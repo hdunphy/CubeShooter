@@ -19,10 +19,12 @@ MonoBehaviour:
   fireRate: 1
   turnSmoothTime: 0.3
   numberOfBullets: 1
+  numberOfBulletBounces: 0
   navMeshAngularSpeed: 120
   navMeshAcceleration: 8
   maxVisionDistance: 35
   shootAngle: 30
+  searchAngle: 45
   canMove: 1
   closestPlayerOffset: 10
   strafeDistance: 12

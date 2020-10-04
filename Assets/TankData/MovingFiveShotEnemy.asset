@@ -24,6 +24,7 @@ MonoBehaviour:
   navMeshAcceleration: 8
   maxVisionDistance: 35
   shootAngle: 30
+  searchAngle: 45
   canMove: 1
   closestPlayerOffset: 10
   strafeDistance: 12

@@ -71,10 +71,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TankData: {fileID: 11400000, guid: cc5fd0f91b7971748a5e7c91fc3f98d5, type: 2}
-  Movement: {fileID: 4812066001906306230}
-  NavMeshAgent: {fileID: 395587717}
   NearestBulletCollider: {fileID: 1905525416}
-  StateTypes: 0000000001000000
+  StateTypes: 03000000
 --- !u!195 &395587717
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -94,7 +92,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &5954825527237903779
@@ -108,6 +106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: turnSmoothTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8042251577157908203, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: debug
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9102785147804248433, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -137,7 +140,7 @@ PrefabInstance:
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.56
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -147,17 +150,17 @@ PrefabInstance:
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.33
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7660445
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -167,7 +170,7 @@ PrefabInstance:
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.6427876
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -182,7 +185,7 @@ PrefabInstance:
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 260
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203018, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -192,7 +195,17 @@ PrefabInstance:
     - target: {fileID: 9102785149521203019, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785149521203019, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9102785149521203020, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9102785149521203021, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
         type: 3}
@@ -207,18 +220,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5954825527237903779}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4812066001906306230 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -8042251577157908203, guid: cce7c8309b23f9f47a4a64bb0ffb545c,
-    type: 3}
-  m_PrefabInstance: {fileID: 5954825527237903779}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3238189945312512750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54bb3074144dba84cabaeb34444f6339, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3238189945465141489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9102785148260285778, guid: cce7c8309b23f9f47a4a64bb0ffb545c,

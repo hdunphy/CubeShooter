@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CapsuleCollider))]
 public class NearestBulletVelocity : MonoBehaviour
 {
     public BulletCollider Bullet { get; private set; }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1228500044727629082}
   - component: {fileID: 7196226014451458541}
   - component: {fileID: 2820985365286184101}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Smoke Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 2823042186882587679}
   - component: {fileID: -5257979468550960857}
   - component: {fileID: 4211548230621561729}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletVelocity: 7
-  numberOfBounces: 1
   rb: {fileID: 7943286946933620118}
 --- !u!208 &-5257979468550960857
 NavMeshObstacle:
@@ -215,7 +214,7 @@ GameObject:
   - component: {fileID: 2990247795341166091}
   - component: {fileID: 398680359491854330}
   - component: {fileID: 7257002141582707388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BulletButt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +295,7 @@ GameObject:
   - component: {fileID: 5097420041348861781}
   - component: {fileID: 5952092268821799527}
   - component: {fileID: 2489010966482626986}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BulletCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

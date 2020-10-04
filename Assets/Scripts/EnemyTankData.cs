@@ -9,6 +9,7 @@ public class EnemyTankData : BaseTankData
     public float navMeshAcceleration;
     public float maxVisionDistance;// 25f;
     public float shootAngle;// 30f;
+    public int searchAngle;
     public bool canMove;// true;
     public float closestPlayerOffset;
     public float strafeDistance;

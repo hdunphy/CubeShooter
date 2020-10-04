@@ -13,11 +13,19 @@ public class BulletCollider : MonoBehaviour
     private TankMovement owner;
     private BulletObejctPool bulletObejctPool;
     private int currentBounces = 0;
+    private bool checkVelocity = false;
 
     private void Start()
     {
         bulletObejctPool = BulletObejctPool.Instance;
         rb.freezeRotation = true;
+    }
+
+    private void Update()
+    {
+        if (checkVelocity && rb.velocity == Vector3.zero)
+            bulletObejctPool.DestroyToPool(gameObject);
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -63,6 +71,7 @@ public class BulletCollider : MonoBehaviour
         rb.velocity = Vector3.zero;
         bulletVelocity = 0f;
         currentBounces = 0;
+        checkVelocity = false;
     }
 
     internal void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
@@ -72,5 +81,6 @@ public class BulletCollider : MonoBehaviour
         owner.AddBullet();
         rb.velocity = velcoity;
         bulletVelocity = maxVelocity;
+        checkVelocity = true;
     }
 }
