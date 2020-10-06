@@ -123,4 +123,9 @@ public class TankMovement : MonoBehaviour
     {
         return headTransform.forward;
     }
+
+    public float GetHeadAngle()
+    {
+        return headTransform.eulerAngles.y;
+    }
 }

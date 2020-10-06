@@ -22,9 +22,9 @@ MonoBehaviour:
   numberOfBulletBounces: 2
   navMeshAngularSpeed: 120
   navMeshAcceleration: 8
-  maxVisionDistance: 35
+  maxVisionDistance: 100
   shootAngle: 30
-  searchAngle: 45
+  searchAngle: 100
   canMove: 0
   closestPlayerOffset: 10
   strafeDistance: 0

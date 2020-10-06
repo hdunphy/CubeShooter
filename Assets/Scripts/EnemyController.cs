@@ -67,18 +67,31 @@ public class EnemyController : BaseController
         //    Vector3 newTo = Vector3.Reflect(headDirection, normal);
         //    Debug.DrawRay(objectHit.point, newTo, Color.blue);
         //}
-
+        Movement.SetIsShooting(false);
+        Vector3 pos = transform.position;
         //var hit = CheckShot(transform.position, headDirection * MaxVisionDistance, 0);
-        if (!CheckShot(transform.position, headDirection * MaxVisionDistance, 0, MaxVisionDistance))
+        if (!CheckShot(pos, headDirection * MaxVisionDistance, 0, MaxVisionDistance))
         {
-            //Movement.SetIsShooting(false);
-            FindShot();
+            Vector3 playerPos = TargetedPlayer.transform.position;
+            Vector3 direction = playerPos - pos;
+            //if can see player
+            bool canSeePlayer = Physics.Raycast(pos, direction, out RaycastHit objectHit, MaxVisionDistance)
+                && objectHit.collider.CompareTag("Player");
+
+            if (canSeePlayer)
+            { //move head towards player
+                Movement.RotateHead(playerPos);
+            }
+            else
+            {
+                FindShot(direction);
+            }
         }
         else
         {
             if (Movement.debug)
                 Debug.Log("target");
-            //Movement.SetIsShooting(true);
+            Movement.SetIsShooting(true);
         }
     }
 
@@ -116,60 +129,86 @@ public class EnemyController : BaseController
                     hitPlayer = true;
 
                     if (Movement.debug)
-                        Debug.DrawRay(from, objectHit.point, Color.yellow);
+                    {
+                        var dir = objectHit.point - from;
+                        Debug.DrawRay(from, dir, Color.blue);
+                    }
                     break;
                 case "Wall":
                     if (currentNumberOfBounces < Movement.GetNumberOfBulletBounces())
                     { //If the bullet can bounce check path of the bullet
-                        float remDistance = distance - Vector3.Distance(from, to);
+                        float remDistance = distance - Vector3.Distance(from, objectHit.point);
                         Vector3 newFrom = objectHit.point;
-                        Vector3 newTo = Vector3.Reflect(to, objectHit.normal);
+                        Vector3 dir = objectHit.point - from;
+                        Vector3 newTo = Vector3.Reflect(dir, objectHit.normal);
+                        //    Vector3 newTo = Vector3.Reflect(headDirection, normal);
+                        //    Debug.DrawRay(objectHit.point, newTo, Color.blue);
 
                         //Use recurision to follow path of the bullet
                         hitPlayer = CheckShot(newFrom, newTo, ++currentNumberOfBounces, remDistance);
 
                         if (Movement.debug && hitPlayer)
-                            Debug.DrawRay(from, objectHit.point, Color.yellow);
-                        else if (Movement.debug)
-                            Debug.DrawRay(from, objectHit.point, Color.black);
+                        {
+                            
+                            Debug.DrawRay(from, dir, Color.yellow);
+
+                        }
+                        //else if (Movement.debug)
+                        //    Debug.DrawRay(from, objectHit.point, Color.black);
                     }
                     break;
             }
         }
         return hitPlayer;
     }
-    private bool FindShot()
+
+    private bool FindShot(Vector3 direction)
     {
         Vector3 from, to;
         bool hitPlayer = false;
         int angle;
 
-        Vector3 headDirection = to = Movement.GetHeadDirection();
+        //Vector3 direction = TargetedPlayer.transform.position - transform.position;
+        //Vector3 headDirection = to = Movement.GetHeadDirection();
+
         from = transform.position;
-        int headAngle = Mathf.RoundToInt(Mathf.Atan2(headDirection.x, headDirection.z) * Mathf.Rad2Deg);
+        int headAngle = Mathf.RoundToInt(Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
         int startAngle = headAngle - SearchAngle;
         int endAngle = headAngle + SearchAngle;
 
+        if (Movement.debug)
+        {
+            var startVector = Quaternion.Euler(0, startAngle, 0) * -direction;
+            var endVector = Quaternion.Euler(0, endAngle, 0) * -direction;
+            Debug.DrawRay(from, startVector, Color.black);
+            Debug.DrawRay(from, endVector, Color.black);
+            //Debug.DrawRay(from, direction, Color.white);
+        }
+
         //for every y degrees current angle -x degrees to current angle plus x degrees
         //ie (for every 5 degrees from curr_angle - 45 to curr_angle + 45)
-        for (angle = startAngle; angle <= endAngle; angle += DegreeOffset)
+        for (angle = startAngle; angle <= endAngle; angle += 1)
         {
-            to = headDirection * Mathf.Cos(angle);
+            //to = direction * Mathf.Sin(Mathf.Deg2Rad * angle);
+            //WHY THIS NO WORK
+            to = Quaternion.Euler(0, angle, 0) * -direction;
             //from.y = 1;
             //to.y = 1;
+            //Debug.DrawRay(from, to * 10, Color.black, 1);
 
             //Follow Raycast direction check if player is hit (CheckCUrrentShot(direction))
             if (CheckShot(from, to, 0, MaxVisionDistance))
             {
                 hitPlayer = true;
-                Movement.RotateHead(to);
+                Movement.RotateHead(angle);
                 break;
             }
         }
 
         //if true set that as head movement destination
-        //if(to != Vector3.zero)
-        //    Movement.RotateHead(to);
+        //if (to != Vector3.zero)
+        if (!hitPlayer)
+            Movement.RotateHead(headAngle);
         return hitPlayer;
     }
 
