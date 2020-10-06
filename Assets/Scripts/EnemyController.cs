@@ -27,7 +27,8 @@ public class EnemyController : BaseController
     private NavMeshAgent NavMeshAgent;
     private StateMachine stateMachine;
 
-    private const int DegreeOffset = 5;
+    private Vector3 ShootDirection = Vector3.zero;
+    private const int DegreeOffset = 1;
 
     private void Start()
     {
@@ -54,27 +55,17 @@ public class EnemyController : BaseController
 
         if (CanMove)
             Move();
-        //TargetPlayer(TargetedPlayer.transform);
 
         Vector3 headDirection = Movement.GetHeadDirection();
-        //Debug.DrawRay(transform.position, headDirection * MaxVisionDistance, Color.black);
-        //bool isHit = Physics.Raycast(transform.position, headDirection, out RaycastHit objectHit, MaxVisionDistance);//, LayerMask.NameToLayer("Default"));
-        ////Vector3 newFrom = objectHit.point;
-        //if (isHit)
-        //{
-        //    var normal = objectHit.normal;
-        //    //Vector3 direction = transform.position - newFrom;
-        //    Vector3 newTo = Vector3.Reflect(headDirection, normal);
-        //    Debug.DrawRay(objectHit.point, newTo, Color.blue);
-        //}
-        Movement.SetIsShooting(false);
         Vector3 pos = transform.position;
-        //var hit = CheckShot(transform.position, headDirection * MaxVisionDistance, 0);
+
         if (!CheckShot(pos, headDirection * MaxVisionDistance, 0, MaxVisionDistance))
         {
+            Movement.SetIsShooting(false);
             Vector3 playerPos = TargetedPlayer.transform.position;
             Vector3 direction = playerPos - pos;
-            //if can see player
+
+            //if can see player with direct line
             bool canSeePlayer = Physics.Raycast(pos, direction, out RaycastHit objectHit, MaxVisionDistance)
                 && objectHit.collider.CompareTag("Player");
 
@@ -84,42 +75,23 @@ public class EnemyController : BaseController
             }
             else
             {
-                FindShot(direction);
+                if(FindShot(direction))
+                    Movement.RotateHead(ShootDirection);
             }
         }
         else
         {
-            if (Movement.debug)
-                Debug.Log("target");
             Movement.SetIsShooting(true);
         }
     }
 
-    /*
-    void Update()
-    {
-        //New Update pattern:
-        //Nearest Bullet is updated from Event
-
-        stateMachine.Update();
-
-        if (CanMove) Move();
-
-        if(CheckCurrentShot(currentFacing))
-            SetShooting(true)
-        else
-            RotateHead();
-    }
-    */
-
-
     private bool CheckShot(Vector3 from, Vector3 to, int currentNumberOfBounces, float distance)
     {
         bool hitPlayer = false;
+
         //Follow Raycast in direction and calculate reflection angles of bullet
-        bool isHit = Physics.Raycast(from, to, out RaycastHit objectHit, distance);//, LayerMask.NameToLayer("Default"));
-        //if (Movement.debug)
-        //    Debug.DrawLine(from, to, Color.black);
+        bool isHit = Physics.Raycast(from, to, out RaycastHit objectHit, distance);
+
         if (isHit)
         {
             string tag = objectHit.collider.tag;
@@ -141,23 +113,21 @@ public class EnemyController : BaseController
                         Vector3 newFrom = objectHit.point;
                         Vector3 dir = objectHit.point - from;
                         Vector3 newTo = Vector3.Reflect(dir, objectHit.normal);
-                        //    Vector3 newTo = Vector3.Reflect(headDirection, normal);
-                        //    Debug.DrawRay(objectHit.point, newTo, Color.blue);
 
                         //Use recurision to follow path of the bullet
                         hitPlayer = CheckShot(newFrom, newTo, ++currentNumberOfBounces, remDistance);
 
                         if (Movement.debug && hitPlayer)
                         {
-                            
                             Debug.DrawRay(from, dir, Color.yellow);
-
                         }
-                        //else if (Movement.debug)
-                        //    Debug.DrawRay(from, objectHit.point, Color.black);
                     }
                     break;
             }
+        }
+        if(hitPlayer)
+        {
+            ShootDirection = objectHit.point;
         }
         return hitPlayer;
     }
@@ -168,8 +138,6 @@ public class EnemyController : BaseController
         bool hitPlayer = false;
         int angle;
 
-        //Vector3 direction = TargetedPlayer.transform.position - transform.position;
-        //Vector3 headDirection = to = Movement.GetHeadDirection();
 
         from = transform.position;
         int headAngle = Mathf.RoundToInt(Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg);
@@ -182,33 +150,21 @@ public class EnemyController : BaseController
             var endVector = Quaternion.Euler(0, endAngle, 0) * -direction;
             Debug.DrawRay(from, startVector, Color.black);
             Debug.DrawRay(from, endVector, Color.black);
-            //Debug.DrawRay(from, direction, Color.white);
         }
 
         //for every y degrees current angle -x degrees to current angle plus x degrees
         //ie (for every 5 degrees from curr_angle - 45 to curr_angle + 45)
-        for (angle = startAngle; angle <= endAngle; angle += 1)
+        for (angle = startAngle; angle <= endAngle; angle += DegreeOffset)
         {
-            //to = direction * Mathf.Sin(Mathf.Deg2Rad * angle);
-            //WHY THIS NO WORK
             to = Quaternion.Euler(0, angle, 0) * -direction;
-            //from.y = 1;
-            //to.y = 1;
-            //Debug.DrawRay(from, to * 10, Color.black, 1);
 
             //Follow Raycast direction check if player is hit (CheckCUrrentShot(direction))
             if (CheckShot(from, to, 0, MaxVisionDistance))
             {
                 hitPlayer = true;
-                Movement.RotateHead(angle);
                 break;
             }
         }
-
-        //if true set that as head movement destination
-        //if (to != Vector3.zero)
-        if (!hitPlayer)
-            Movement.RotateHead(headAngle);
         return hitPlayer;
     }
 
@@ -248,15 +204,13 @@ public class EnemyController : BaseController
         bool setIsShooting = false;
         if (canSeePlayer)
         {
-            //if (Movement.debug)
-            //    Debug.Log("can see player");
             Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
             Movement.RotateHead(playerTransform.position);
 
             float angleDifference = Movement.GetAngleDifference();
             if (Movement.debug)
                 Debug.Log("angle: " + angleDifference);
-            if (angleDifference <= ShootAngle)// && angleDifference >= -ShootAngle)
+            if (angleDifference <= ShootAngle)
             {
                 setIsShooting = true;
             }

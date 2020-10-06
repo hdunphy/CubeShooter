@@ -69,8 +69,6 @@ public class TankMovement : MonoBehaviour
             direction.Normalize();
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             RotateHead(targetAngle);
-
-            //angleDifference = Vector3.Angle(direction, headTransform.forward);
             
         }
     }
@@ -82,9 +80,6 @@ public class TankMovement : MonoBehaviour
 
         float theta = Math.Abs(targetAngle - angle) % 360;
         angleDifference = theta > 180 ? 360 - theta : theta;
-        //angleDifference = Mathf.Abs(targetAngle) - Mathf.Abs(angle);
-        //angleDifference = Mathf.Abs(targetAngle - angle);
-        //angleDifference = Vector3.Angle(direction, headTransform.forward);
     }
 
     public void RemoveBullet()
