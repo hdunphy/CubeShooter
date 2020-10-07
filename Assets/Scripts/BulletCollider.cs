@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class BulletCollider : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class BulletCollider : MonoBehaviour
     private int NumberOfBounces { get; set; }
 
     public Rigidbody rb;
+    [SerializeField] private VisualEffect smoke;
 
     private TankMovement owner;
     private BulletObejctPool bulletObejctPool;
     private int currentBounces = 0;
     private bool checkVelocity = false;
+    private VisualEffect effect;
 
     private void Start()
     {
@@ -58,7 +61,6 @@ public class BulletCollider : MonoBehaviour
         rb.rotation = Quaternion.FromToRotation(Vector3.forward, newDir);
         rb.velocity = Vector3.zero;
         rb.velocity = newDir.normalized * bulletVelocity;
-        //Debug.Log("change velocity: " + rb.velocity.magnitude);
     }
 
     public void OnBulletDespawn()
@@ -71,16 +73,25 @@ public class BulletCollider : MonoBehaviour
         rb.velocity = Vector3.zero;
         bulletVelocity = 0f;
         currentBounces = 0;
+
+        effect.Stop();
+        effect.transform.parent = null;
+
         checkVelocity = false;
     }
 
-    internal void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
+    public void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
     {
         NumberOfBounces = numberOfBounces;
         owner = tankMovement;
         owner.AddBullet();
+
         rb.velocity = velcoity;
         bulletVelocity = maxVelocity;
+
+        effect = Instantiate(smoke, transform);
+        effect.Play();
+
         checkVelocity = true;
     }
 }
