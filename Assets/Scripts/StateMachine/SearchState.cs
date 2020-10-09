@@ -15,9 +15,6 @@ public class SearchState : BaseState
         float distance = Vector3.Distance(transform.position, targetPosition);
         controller.TargetDestination = targetPosition;
 
-        if (controller._debug)
-            Debug.Log(distance);
-
         if (controller.NearestBullet != null)
             return StateType.AvoidBullet;
         else if (Mathf.Abs(distance) < controller.StrafeDistance)

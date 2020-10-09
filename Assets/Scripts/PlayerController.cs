@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
-
     float verticleMovement, horizontalMovement;
 
     // Update is called once per frame
@@ -16,9 +15,9 @@ public class PlayerController : BaseController
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Ground")))
-            Movement.RotateHead(hit.point);
+            Firing.RotateHead(hit.point);
 
-        Movement.SetIsShooting(Input.GetMouseButton(0));
+        Firing.SetIsShooting(Input.GetMouseButton(0));
     }
 
     private void FixedUpdate()

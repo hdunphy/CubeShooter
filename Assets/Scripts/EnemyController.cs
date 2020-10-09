@@ -7,15 +7,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : BaseController
 {
-    private EnemyTankData EnemyTankData => (EnemyTankData)TankData;
-    public float MaxVisionDistance => EnemyTankData.maxVisionDistance;
-    public float ShootAngle => EnemyTankData.shootAngle;
-    public int SearchAngle => EnemyTankData.searchAngle;
-    public float StrafeDistance => EnemyTankData.strafeDistance;
-    public float ChaseDistance => EnemyTankData.chaseDistance;
-    public bool _debug => Movement.debug;
-    private bool CanMove => EnemyTankData.canMove;
-    private float ClosestPlayerOffset => EnemyTankData.closestPlayerOffset;
+    [SerializeField] private EnemyMovementData enemyMovementData;
+    public float MaxVisionDistance => enemyMovementData.MaxVisionDistance;
+    public int SearchAngle => tankFiringData.SearchAngle;
+    public float StrafeDistance => enemyMovementData.StrafeDistance;
+    public float ChaseDistance => enemyMovementData.ChaseDistance;
+    private float ClosestPlayerOffset => enemyMovementData.ClosestPlayerOffset;
+    private bool CanMove { get { return Movement != null; } }
     public PlayerController TargetedPlayer { get; private set; }
     public BulletCollider NearestBullet { get; private set; }
     public Vector3 TargetDestination { get; set; }
@@ -40,9 +38,9 @@ public class EnemyController : BaseController
         }
         stateMachine = new StateMachine(stateMachineDictionary);
         NavMeshAgent.updateRotation = false;
-        NavMeshAgent.acceleration = EnemyTankData.navMeshAcceleration;
-        NavMeshAgent.angularSpeed = EnemyTankData.navMeshAngularSpeed;
-        NavMeshAgent.speed = EnemyTankData.maximumVelcoity;
+        NavMeshAgent.acceleration = enemyMovementData.NavMeshAcceleration;
+        NavMeshAgent.angularSpeed = enemyMovementData.NavMeshAngularSpeed;
+        NavMeshAgent.speed = enemyMovementData.NavMeshVelocity;
     }
 
     // Update is called once per frame
@@ -53,15 +51,15 @@ public class EnemyController : BaseController
 
         stateMachine.Update();
 
-        if (CanMove)
+        if (Movement != null)
             Move();
 
-        Vector3 headDirection = Movement.GetHeadDirection();
+        Vector3 headDirection = Firing.GetHeadDirection();
         Vector3 pos = transform.position;
 
         if (!CheckShot(pos, headDirection * MaxVisionDistance, 0, MaxVisionDistance))
         {
-            Movement.SetIsShooting(false);
+            Firing.SetIsShooting(false);
             Vector3 playerPos = TargetedPlayer.transform.position;
             Vector3 direction = playerPos - pos;
 
@@ -71,17 +69,17 @@ public class EnemyController : BaseController
 
             if (canSeePlayer)
             { //move head towards player
-                Movement.RotateHead(playerPos);
+                Firing.RotateHead(playerPos);
             }
             else
             {
                 if(FindShot(direction))
-                    Movement.RotateHead(ShootDirection);
+                    Firing.RotateHead(ShootDirection);
             }
         }
         else
         {
-            Movement.SetIsShooting(true);
+            Firing.SetIsShooting(true);
         }
     }
 
@@ -107,7 +105,7 @@ public class EnemyController : BaseController
                     }
                     break;
                 case "Wall":
-                    if (currentNumberOfBounces < Movement.GetNumberOfBulletBounces())
+                    if (currentNumberOfBounces < Firing.NumberOfBulletBounces)
                     { //If the bullet can bounce check path of the bullet
                         float remDistance = distance - Vector3.Distance(from, objectHit.point);
                         Vector3 newFrom = objectHit.point;
@@ -188,33 +186,5 @@ public class EnemyController : BaseController
                     TargetedPlayer = pc;
             }
         }
-    }
-
-    void TargetPlayer(Transform playerTransform)
-    {
-        Transform currentTransform = gameObject.transform;
-
-        Vector3 direction = playerTransform.position - currentTransform.position;
-
-        bool canSeePlayer = Physics.Raycast(currentTransform.position, direction, out RaycastHit objectHit, MaxVisionDistance)
-            && objectHit.collider.CompareTag("Player");
-        if (Movement.debug)
-            Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
-
-        bool setIsShooting = false;
-        if (canSeePlayer)
-        {
-            Debug.DrawRay(currentTransform.position, direction * MaxVisionDistance, Color.green);
-            Movement.RotateHead(playerTransform.position);
-
-            float angleDifference = Movement.GetAngleDifference();
-            if (Movement.debug)
-                Debug.Log("angle: " + angleDifference);
-            if (angleDifference <= ShootAngle)
-            {
-                setIsShooting = true;
-            }
-        }
-        Movement.SetIsShooting(setIsShooting);
     }
 }

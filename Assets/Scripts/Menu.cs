@@ -11,4 +11,9 @@ public class Menu : MonoBehaviour
         Debug.Log("Build index " + SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene(1);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

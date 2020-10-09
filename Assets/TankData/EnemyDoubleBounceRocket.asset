@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a30beb7333bd7c48918db758324e26c, type: 3}
+  m_Name: EnemyDoubleBounceRocket
+  m_EditorClassIdentifier: 
+  turnSmoothTime: 0.3
+  bulletDistanceOffset: 2.5
+  bulletVelocity: 21
+  fireRate: 1
+  numberOfBullets: 1
+  numberOfBulletBounces: 2
+  color: {r: 0.03043639, g: 0.4509804, b: 0, a: 1}
+  searchAngle: 110

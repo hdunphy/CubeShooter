@@ -12,7 +12,7 @@ public class BulletCollider : MonoBehaviour
     public Rigidbody rb;
     [SerializeField] private VisualEffect smoke;
 
-    private TankMovement owner;
+    private TankFiring owner;
     private BulletObejctPool bulletObejctPool;
     private int currentBounces = 0;
     private bool checkVelocity = false;
@@ -80,10 +80,10 @@ public class BulletCollider : MonoBehaviour
         checkVelocity = false;
     }
 
-    public void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankMovement tankMovement, int numberOfBounces)
+    public void OnBulletSpawn(Vector3 velcoity, float maxVelocity, TankFiring tankFiring, int numberOfBounces)
     {
         NumberOfBounces = numberOfBounces;
-        owner = tankMovement;
+        owner = tankFiring;
         owner.AddBullet();
 
         rb.velocity = velcoity;
