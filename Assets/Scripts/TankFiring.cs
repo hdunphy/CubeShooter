@@ -71,9 +71,6 @@ public class TankFiring : MonoBehaviour
     {
         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TurnSmoothTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-        //float theta = Math.Abs(targetAngle - angle) % 360;
-        //angleDifference = theta > 180 ? 360 - theta : theta;
     }
 
     public void SetIsShooting(bool isShooting)

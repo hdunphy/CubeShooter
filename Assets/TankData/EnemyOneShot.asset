@@ -16,6 +16,7 @@ MonoBehaviour:
   bulletDistanceOffset: 2.5
   bulletVelocity: 7
   fireRate: 1
+  maxVisionDistance: 35
   numberOfBullets: 1
   numberOfBulletBounces: 1
   color: {r: 0.4509804, g: 0.33374947, b: 0, a: 1}

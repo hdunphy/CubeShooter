@@ -1291,16 +1291,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2200763811909121276, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: m_MoveThreshold
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850077163322484799, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: debug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6582434002952138336, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1355,26 +1345,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6582434002952138337, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6582434002952138337, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6582434002952138337, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6582434002952138337, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
-        type: 3}
-      propertyPath: m_Drag
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6582434002952138343, guid: 176d8b4dc19d8fa47a518d6507f15ce2,
         type: 3}

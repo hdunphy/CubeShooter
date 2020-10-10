@@ -1,11 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CapsuleCollider))]
 public class NearestBulletVelocity : MonoBehaviour
 {
-    public BulletCollider Bullet { get; private set; }
+    private BulletCollider Bullet;
+
+    public event Action<BulletCollider> AddDangerousBullet;
+    private void OnAddDangerousBulletTrigger(BulletCollider bullet)
+    {
+        AddDangerousBullet?.Invoke(bullet);
+    }
 
     private void Update()
     {
@@ -50,9 +57,15 @@ public class NearestBulletVelocity : MonoBehaviour
             var otherDistance = Mathf.Abs(Vector3.Distance(transform.position, otherTransform.position));
             bool bulletIsCloser = Bullet != null && (otherDistance >= bulletDistance);
             if (!bulletIsCloser)
+            {
                 Bullet = other;
+                OnAddDangerousBulletTrigger(Bullet);
+            }
         }
         else if (Bullet == other)
+        {
             Bullet = null;
+            OnAddDangerousBulletTrigger(Bullet);
+        }
     }
 }

@@ -352,6 +352,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bccc0d2cd6f154f49bdc6b4048530c04,
         type: 2}
+    - target: {fileID: 395587711, guid: 066f935f8e60f774fba50f7fb69e3324, type: 3}
+      propertyPath: tankFiringData
+      value: 
+      objectReference: {fileID: 11400000, guid: b83ad6872719b7f4193d7f6679ad05a0,
+        type: 2}
     - target: {fileID: 3238189945312512745, guid: 066f935f8e60f774fba50f7fb69e3324,
         type: 3}
       propertyPath: m_LocalPosition.x

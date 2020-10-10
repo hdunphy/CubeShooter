@@ -3,9 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : BaseController
+public class PlayerController : MonoBehaviour
 {
+    [SerializeField] protected TankMovementData tankMovementData;
+    [SerializeField] protected TankFiringData tankFiringData;
+    [SerializeField] protected TankMovement Movement;
+    [SerializeField] protected TankFiring Firing;
+    [SerializeField] protected Renderer _renderer;
+
     float verticleMovement, horizontalMovement;
+    private void Awake()
+    {
+        if (tankFiringData == null || tankMovementData == null)
+            Debug.LogWarning("Missing data");
+
+        Movement.SetTankMovementData(tankMovementData);
+        Firing.SetTankFiringData(tankFiringData);
+
+        _renderer.material.SetColor("_Color", tankFiringData.TankColor);
+    }
 
     // Update is called once per frame
     void Update()
